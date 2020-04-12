@@ -1,0 +1,25 @@
+{
+  "name": "car-tune",
+  "version": "1.0.0",
+  "description": "Webgl based 3d editor for car enthusiasts",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "4"
+  },
+  "author": "Ruggero Visintin",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "three": "^0.115.0"
+  }
+}
