@@ -1,10 +1,12 @@
-import { WebGLRenderer, PerspectiveCamera, Scene, CubeTextureLoader, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { WebGLRenderer, PerspectiveCamera } from 'three';
 import {OrbitControls} from 'three-orbitcontrols-ts';
+
+import {DefaultScene} from './core/DefaultScene';
 
 export class CarTune {
     private _renderer: WebGLRenderer;
     private _camera: PerspectiveCamera;
-    private _scene: Scene;
+    private _scene: DefaultScene;
     private _controls: OrbitControls;
 
     constructor() {
@@ -14,23 +16,7 @@ export class CarTune {
         this._camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._camera.position.z = 5;
 
-        var geometry = new BoxGeometry;
-		var material = new MeshBasicMaterial( { color: 0x00ff00 } );
-        var cube = new Mesh( geometry, material );
-
-        this._scene = new Scene();
-        this._scene.add(cube);
-
-        this._scene.background = new CubeTextureLoader()
-            .setPath('assets/img/default_cubemap/')
-            .load([
-                'posx.jpg',
-                'negx.jpg',
-                'posy.jpg',
-                'negy.jpg',
-                'posz.jpg',
-                'negz.jpg'
-            ]);
+        this._scene = new DefaultScene();
 
         this._controls = new OrbitControls(this._camera, this._renderer.domElement);
         document.body.appendChild(this._renderer.domElement);
@@ -40,6 +26,6 @@ export class CarTune {
         requestAnimationFrame(() => {this.start()});
 
         this._controls.update();
-        this._renderer.render(this._scene, this._camera);
+        this._renderer.render(this._scene.renderObject, this._camera);
     }
 }
