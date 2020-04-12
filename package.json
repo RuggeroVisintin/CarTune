@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:dev": "webpack --config webpack.config.js"
+    "build:dev": "webpack --config webpack.config.js",
+    "serve": "npm run build:dev && http-server ./build"
   },
   "repository": {
     "type": "git",
@@ -14,12 +15,15 @@
   "author": "Ruggero Visintin",
   "license": "ISC",
   "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "http-server": "^0.12.1",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "three": "^0.115.0"
+    "three": "^0.115.0",
+    "three-orbitcontrols-ts": "^0.1.2"
   }
 }
