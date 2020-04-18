@@ -1,7 +1,7 @@
 import { Scene, CubeTextureLoader, DirectionalLight, AmbientLight } from "three";
 
 import { BodyEntity, WheelsEntity } from './entities';
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import {CarSystem} from './system/CarSystem';
 
 export class DefaultScene {
     private _renderObject: Scene;
@@ -22,16 +22,20 @@ export class DefaultScene {
                 'negz.jpg'
             ]);
 
-        const bodyEntity = new BodyEntity('assets/models/defender/body.fbx');
+        const carSystem = new CarSystem();
+        carSystem
+            .deserialize('assets/models/defender/defender.json');
+
+        const bodyEntity = new BodyEntity();
         bodyEntity
-            .load(new FBXLoader())
+            .load('assets/models/defender/body.fbx')
             .then(() => {
                 this._renderObject.add(bodyEntity.renderObject);
             });
 
-        const wheelsEntity = new WheelsEntity('assets/models/defender/wheels.fbx');
+        const wheelsEntity = new WheelsEntity();
         wheelsEntity
-            .load(new FBXLoader())
+            .load('assets/models/defender/wheels.fbx')
             .then(() => {
                 this._renderObject.add(wheelsEntity.renderObject);
             })

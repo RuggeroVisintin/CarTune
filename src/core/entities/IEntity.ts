@@ -1,5 +1,5 @@
-import { Loader } from "three";
+import { Object3D } from "three";
 
 export interface IEntity {
-    load(loader: Loader): void;
+    load(fileName: string): Promise<void>;
 }

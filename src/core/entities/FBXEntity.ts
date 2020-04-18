@@ -3,18 +3,13 @@ import { Object3D } from "three";
 import { IEntity } from "./IEntity";
 
 export class FBXEntity implements IEntity {
-    private _fileName: string;
     private _renderObject: Object3D;
 
-    constructor(
-        fileName: string
-    ) {
-        this._fileName = fileName;
-    }
+    async load(fileName: string): Promise<void> {
+        const loader = new FBXLoader();
 
-    async load(loader: FBXLoader): Promise<void> {
         return new Promise(resolve => {
-            loader.load(this._fileName, fbxScene => {
+            loader.load(fileName, fbxScene => {
                 this._renderObject = fbxScene;
                 resolve();
             });
