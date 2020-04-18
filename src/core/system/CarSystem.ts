@@ -3,7 +3,7 @@ import { Group } from "three";
 import { ISystem } from "./ISystem";
 import {CTJsonResponse} from '../utils';
 import { BodyEntity, WheelsEntity, IEntity, FBXEntity } from "../entities";
-import { SerializedEntity } from "../entities/SerializedEntity";
+import { SerializedEntityType } from "../entities/SerializedEntity";
 
 type TypeMapRecord = Record<string, Function>;
 const TYPES_MAP: TypeMapRecord = {
@@ -18,7 +18,7 @@ export class CarSystem implements ISystem {
     async deserialize(fileName: string): Promise<void> {
         const data = <CTJsonResponse>await (await fetch(fileName)).json();
 
-        this._entities = await Promise.all(data.entities.map(async (entity: SerializedEntity) => {
+        this._entities = await Promise.all(data.entities.map(async (entity: SerializedEntityType) => {
             const fbxEntity: FBXEntity = TYPES_MAP[entity.type]();
             await fbxEntity.load(entity.fileName);
 

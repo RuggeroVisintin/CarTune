@@ -1,5 +1,5 @@
-import { SerializedEntity } from "../entities/SerializedEntity";
+import { SerializedEntityType } from "../entities/SerializedEntity";
 
 export type CTJsonResponse = {
-    entities: SerializedEntity[];
+    entities: SerializedEntityType[];
 }
