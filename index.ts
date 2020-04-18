@@ -1,4 +1,5 @@
 import {CarTune} from './src/CarTune';
 
-const carTUne = new CarTune();
-carTUne.start();
+const carTune = new CarTune();
+carTune.init();
+carTune.start();

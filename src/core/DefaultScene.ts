@@ -22,14 +22,14 @@ export class DefaultScene {
                 'negz.jpg'
             ]);
 
-        const bodyEntity = new BodyEntity('assets/models/prototipo/body.fbx');
+        const bodyEntity = new BodyEntity('assets/models/defender/body.fbx');
         bodyEntity
             .load(new FBXLoader())
             .then(() => {
                 this._renderObject.add(bodyEntity.renderObject);
             });
 
-        const wheelsEntity = new WheelsEntity('assets/models/prototipo/wheels.fbx');
+        const wheelsEntity = new WheelsEntity('assets/models/defender/wheels.fbx');
         wheelsEntity
             .load(new FBXLoader())
             .then(() => {
