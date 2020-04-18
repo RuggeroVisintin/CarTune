@@ -24,5 +24,18 @@ export class CarSystem implements ISystem {
 
             return fbxEntity;
         }));
+
+        this._renderObject = new Group();
+        this._entities.forEach(entity => {
+            this._renderObject.add(entity.renderObject);
+        });
+    }
+
+    get entities(): FBXEntity[] {
+        return this._entities;
+    }
+
+    get renderObject(): Group {
+        return this._renderObject;
     }
 }

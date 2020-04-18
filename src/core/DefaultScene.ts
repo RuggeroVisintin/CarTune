@@ -5,6 +5,7 @@ import {CarSystem} from './system/CarSystem';
 
 export class DefaultScene {
     private _renderObject: Scene;
+    private _carSystem: CarSystem;
 
     constructor() {
         this._renderObject = new Scene();
@@ -22,34 +23,12 @@ export class DefaultScene {
                 'negz.jpg'
             ]);
 
-        const carSystem = new CarSystem();
-        carSystem
-            .deserialize('assets/models/defender/defender.json');
-
-        const bodyEntity = new BodyEntity();
-        bodyEntity
-            .load('assets/models/defender/body.fbx')
+        this._carSystem = new CarSystem();
+        this._carSystem
+            .deserialize('assets/models/defender/defender.json')
             .then(() => {
-                this._renderObject.add(bodyEntity.renderObject);
+                this._renderObject.add(this._carSystem.renderObject);
             });
-
-        const wheelsEntity = new WheelsEntity();
-        wheelsEntity
-            .load('assets/models/defender/wheels.fbx')
-            .then(() => {
-                this._renderObject.add(wheelsEntity.renderObject);
-            })
-
-
-        // this._loader.load('assets/models/bugatti/body.obj', (object) => {
-        //     object.children = object.children.filter(child => {
-        //         return child instanceof Mesh;
-        //     }).map((child: Mesh) => {
-        //         return child;
-        //     });
-
-        //     this._renderObject.add(object);
-        // });
 
         var directionalLight = new DirectionalLight(0xffffff);
         directionalLight.position.set(-1, 1, 1);
@@ -66,5 +45,9 @@ export class DefaultScene {
 
     get renderObject(): Scene {
         return this._renderObject;
+    }
+
+    get carSystem(): CarSystem {
+        return this._carSystem;
     }
 }

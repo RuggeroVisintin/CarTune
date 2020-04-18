@@ -1,7 +1,7 @@
 import { WebGLRenderer, PerspectiveCamera } from 'three';
 
 import {DefaultScene} from './core/DefaultScene';
-import {CameraControls} from './core/CameraControls';
+import {CameraControls} from './core/input/CameraControls';
 import { OBJLoader2 } from 'three/examples/jsm/loaders/OBJLoader2';
 
 export class CarTune {
@@ -41,6 +41,7 @@ export class CarTune {
         if(!this._initialized) {
             throw new Error("Called start before init")
         }
+
         requestAnimationFrame(() => {this.start()});
 
         this._cameraControls.update();

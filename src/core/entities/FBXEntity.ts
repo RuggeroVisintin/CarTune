@@ -1,8 +1,10 @@
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 import { Object3D } from "three";
-import { IEntity } from "./IEntity";
 
-export class FBXEntity implements IEntity {
+import { IEntity } from "./IEntity";
+import { SerializedEntity} from './SerializedEntity';
+
+export class FBXEntity extends SerializedEntity implements IEntity  {
     private _renderObject: Object3D;
 
     async load(fileName: string): Promise<void> {
