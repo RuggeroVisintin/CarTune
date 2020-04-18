@@ -1,13 +1,14 @@
 import { WebGLRenderer, PerspectiveCamera } from 'three';
-import {OrbitControls} from 'three-orbitcontrols-ts';
 
 import {DefaultScene} from './core/DefaultScene';
+import {CameraControls} from './core/CameraControls';
+import { OBJLoader2 } from 'three/examples/jsm/loaders/OBJLoader2';
 
 export class CarTune {
     private _renderer: WebGLRenderer;
     private _camera: PerspectiveCamera;
     private _scene: DefaultScene;
-    private _controls: OrbitControls;
+    private _cameraControls: CameraControls;
 
     constructor() {
         this._renderer = new WebGLRenderer();
@@ -16,16 +17,22 @@ export class CarTune {
         this._camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._camera.position.z = 5;
 
+        this._cameraControls = new CameraControls(this._camera, this._renderer);
         this._scene = new DefaultScene();
-
-        this._controls = new OrbitControls(this._camera, this._renderer.domElement);
+        this._scene.init();
+        
+        window.onclick = this.onClick;
         document.body.appendChild(this._renderer.domElement);
     }
 
     start() {
         requestAnimationFrame(() => {this.start()});
 
-        this._controls.update();
+        this._cameraControls.update();
         this._renderer.render(this._scene.renderObject, this._camera);
+    }
+
+    onClick() {
+
     }
 }

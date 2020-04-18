@@ -1,24 +1,17 @@
-import { Scene, BoxGeometry, MeshPhongMaterial, Mesh, CubeTextureLoader, DirectionalLight, Object3D, Vector3 } from "three";
+import { Scene, CubeTextureLoader, DirectionalLight, AmbientLight } from "three";
+
+import { BodyEntity, WheelsEntity } from './entities';
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
 export class DefaultScene {
     private _renderObject: Scene;
 
     constructor() {
         this._renderObject = new Scene();
+    }
 
-        var geometry = new BoxGeometry();
-		var material = new MeshPhongMaterial( { color: 0x00ff00 } );
-        var cube = new Mesh( geometry, material );
-
-        var directionalLight = new DirectionalLight( 0xffffff );
-        directionalLight.position.set(-1, 1, 1);
-
-        this._renderObject = new Scene();
-        this._renderObject.add(cube);
-        this._renderObject.add( directionalLight );
-
-
-        this._renderObject.background = new CubeTextureLoader()
+    async init(): Promise<void> {
+        const backgroundCube = new CubeTextureLoader()
             .setPath('assets/img/default_cubemap/')
             .load([
                 'posx.jpg',
@@ -28,6 +21,43 @@ export class DefaultScene {
                 'posz.jpg',
                 'negz.jpg'
             ]);
+
+        const bodyEntity = new BodyEntity('assets/models/prototipo/body.fbx');
+        bodyEntity
+            .load(new FBXLoader())
+            .then(() => {
+                this._renderObject.add(bodyEntity.renderObject);
+            });
+
+        const wheelsEntity = new WheelsEntity('assets/models/prototipo/wheels.fbx');
+        wheelsEntity
+            .load(new FBXLoader())
+            .then(() => {
+                this._renderObject.add(wheelsEntity.renderObject);
+            })
+
+
+        // this._loader.load('assets/models/bugatti/body.obj', (object) => {
+        //     object.children = object.children.filter(child => {
+        //         return child instanceof Mesh;
+        //     }).map((child: Mesh) => {
+        //         return child;
+        //     });
+
+        //     this._renderObject.add(object);
+        // });
+
+        var directionalLight = new DirectionalLight(0xffffff);
+        directionalLight.position.set(-1, 1, 1);
+        directionalLight.intensity = 0.7;
+
+        var ambientLight = new AmbientLight(0xffffff);
+        ambientLight.intensity = .25;
+
+        this._renderObject.add(directionalLight);
+        this._renderObject.add(ambientLight);
+
+        this._renderObject.background = backgroundCube;
     }
 
     get renderObject(): Scene {
