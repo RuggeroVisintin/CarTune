@@ -1,8 +1,8 @@
-import { Group } from "three";
+import { Group, Mesh, MeshStandardMaterial, MeshPhongMaterial, CubeTexture } from "three";
 
 import { ISystem } from "./ISystem";
 import {CTJsonResponse} from '../utils';
-import { BodyEntity, WheelsEntity, IEntity, FBXEntity } from "../entities";
+import { BodyEntity, WheelsEntity, FBXEntity } from "../entities";
 import { SerializedEntityType } from "../entities/SerializedEntity";
 
 type TypeMapRecord = Record<string, Function>;
@@ -30,6 +30,22 @@ export class CarSystem implements ISystem {
         this._renderObject = new Group();
         this._entities.forEach(entity => {
             this._renderObject.add(entity.renderObject);
+
+            this._entities.forEach(entity => {
+                entity.renderObject.children.forEach((child: Mesh) => {
+                    if(!Array.isArray(child.material)) {
+                        child.material = new MeshStandardMaterial({
+                            roughness: 1 - (<MeshPhongMaterial>child.material).reflectivity,
+                        });
+                    } else {
+                        child.material = child.material.map((material: MeshPhongMaterial) => {
+                            return new MeshStandardMaterial({
+                                roughness: 1 - material.reflectivity,
+                            });
+                        })
+                    }
+                });
+            })
         });
     }
 
@@ -49,8 +65,6 @@ export class CarSystem implements ISystem {
         if(!bodyEntity) {
             return;
         }
-
-        console.log('RIDE HEIGHT', value);
 
         this._rideHeight += value;
         bodyEntity.renderObject.translateY(value);
