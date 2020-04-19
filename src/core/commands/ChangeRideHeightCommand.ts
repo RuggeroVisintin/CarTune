@@ -1,13 +1,17 @@
 import { DefaultScene } from "../DefaultScene";
+import { ICommand } from "./ICommand";
+import { MathUtils } from "three";
 
-export class ChangeRideHeightCommand {
+export class ChangeRideHeightCommand implements ICommand {
     private _delta: number;
-    
-    apply(scene: DefaultScene): void {
-        const bodyEntity = scene.carSystem.entities.find(entity =>{
-            return entity.type === 'MeshEntity';
-        });
 
-        bodyEntity.renderObject.translateY(this._delta);
+    constructor(
+        delta: number
+    ) {
+        this._delta = delta;
+    }
+
+    apply(scene: DefaultScene): void {
+       scene.carSystem.rideHeight = this._delta;
     }
 }

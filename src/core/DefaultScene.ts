@@ -1,6 +1,5 @@
 import { Scene, CubeTextureLoader, DirectionalLight, AmbientLight } from "three";
 
-import { BodyEntity, WheelsEntity } from './entities';
 import {CarSystem} from './system/CarSystem';
 
 export class DefaultScene {

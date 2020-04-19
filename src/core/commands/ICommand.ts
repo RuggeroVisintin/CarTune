@@ -1,3 +1,3 @@
 export interface ICommand {
-    apply(): void;
+    apply(...args: any): void;
 }

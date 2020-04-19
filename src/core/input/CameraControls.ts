@@ -1,7 +1,9 @@
 import { Camera, WebGLRenderer } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 
-export class CameraControls {
+import {IControls} from './IControls';
+
+export class CameraControls implements IControls{
     private _controls: OrbitControls;
 
     constructor(

@@ -12,8 +12,10 @@ const TYPES_MAP: TypeMapRecord = {
 }
 
 export class CarSystem implements ISystem {
-    private _entities: FBXEntity[];
+    private _entities: FBXEntity[] = [];
     private _renderObject: Group;
+
+    private _rideHeight: number = 0;
 
     async deserialize(fileName: string): Promise<void> {
         const data = <CTJsonResponse>await (await fetch(fileName)).json();
@@ -37,5 +39,20 @@ export class CarSystem implements ISystem {
 
     get renderObject(): Group {
         return this._renderObject;
+    }
+
+    set rideHeight(value: number) {
+        const bodyEntity = this.entities.find(entity => {
+            return entity.type === "BodyEntity";
+        });
+
+        if(!bodyEntity) {
+            return;
+        }
+
+        console.log('RIDE HEIGHT', value);
+
+        this._rideHeight += value;
+        bodyEntity.renderObject.translateY(value);
     }
 }
