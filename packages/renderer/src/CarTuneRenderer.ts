@@ -1,10 +1,8 @@
 import { WebGLRenderer, PerspectiveCamera, PMREMGenerator } from 'three';
-
 import {DefaultScene} from './core/DefaultScene';
-
 import {CameraControls, CliControls} from './core/input';
 
-export class CarTune {
+export class CarTuneRenderer {
     private _initialized = false;
 
     private _renderer: WebGLRenderer;
@@ -16,7 +14,7 @@ export class CarTune {
 
     private _pmremGenerator: PMREMGenerator;
 
-    constructor() {
+    constructor(element: Element) {
         this._renderer = new WebGLRenderer();
         this._renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -26,7 +24,7 @@ export class CarTune {
         this._camera.position.z = 5;
         this._cameraControls = new CameraControls(this._camera, this._renderer);
 
-        document.body.appendChild(this._renderer.domElement);
+       element.appendChild(this._renderer.domElement);
     }
 
     init() {

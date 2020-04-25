@@ -1,0 +1,25 @@
+{
+  "name": "@car-tune/renderer",
+  "version": "1.0.0",
+  "description": "CarTune renderer pacakge",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "tsc --project tsconfig.json",
+    "serve": "http-server ./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "4"
+  },
+  "author": "Ruggero Visintin",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "three": "^0.115.0",
+    "three-orbitcontrols-ts": "^0.1.2"
+  }
+}

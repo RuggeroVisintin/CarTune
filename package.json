@@ -1,29 +1,25 @@
 {
-  "name": "car-tune",
+  "name": "cartune",
   "version": "1.0.0",
   "description": "Webgl based 3d editor for car enthusiasts",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:dev": "webpack --config webpack.config.js",
-    "serve": "http-server ./build"
+    "bootstrap": "./bin/bootstrap.sh",
+    "build:dev": "./bin/build-dev.sh",
+    "serve": "./bin/serve.sh"
   },
   "repository": {
     "type": "git",
-    "url": "4"
+    "url": "git+https://github.com/RuggeroVisintin/CarTune.git"
   },
-  "author": "Ruggero Visintin",
+  "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "copy-webpack-plugin": "^5.1.1",
-    "http-server": "^0.12.1",
-    "ts-loader": "^6.2.2",
-    "typescript": "^3.8.3",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+  "bugs": {
+    "url": "https://github.com/RuggeroVisintin/CarTune/issues"
   },
-  "dependencies": {
-    "three": "^0.115.0",
-    "three-orbitcontrols-ts": "^0.1.2"
+  "homepage": "https://github.com/RuggeroVisintin/CarTune#readme",
+  "devDependencies": {
+    "@angular/cli": "^9.1.3"
   }
 }

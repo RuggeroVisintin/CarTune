@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-        "outDir": "build",
+        "outDir": "dist",
         "noImplicitAny": true,
         "module": "es6",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "target": "es6",
         "allowJs": true,
-        "sourceMap": true
+        "sourceMap": true,
 	},
-    "include": [ "*.ts" ]
+    "include": [ "index.ts" ]
 }
