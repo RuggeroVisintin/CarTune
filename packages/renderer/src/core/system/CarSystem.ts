@@ -1,29 +1,28 @@
-import { Group, Mesh, MeshStandardMaterial, MeshPhongMaterial, CubeTexture } from "three";
+import { Group, Mesh, MeshStandardMaterial, MeshPhongMaterial, CubeTexture, Object3D, MeshPhysicalMaterial } from "three";
 
 import { ISystem } from "./ISystem";
-import {CTJsonResponse} from '../utils';
+import { CTJsonResponse } from '../utils';
 import { BodyEntity, WheelsEntity, FBXEntity } from "../entities";
-import { SerializedEntityType } from "../entities/SerializedEntity";
+import { SerializedEntityType, SerializedEntity } from "../entities/SerializedEntity";
 
 type TypeMapRecord = Record<string, Function>;
 const TYPES_MAP: TypeMapRecord = {
-    "BodyEntity": () => new BodyEntity(),
-    "WheelsEntity": () => new WheelsEntity()
+    "BodyEntity": (entity: SerializedEntityType) => new BodyEntity(entity),
+    "WheelsEntity": (entity: SerializedEntityType) => new WheelsEntity(entity)
 }
 
 export class CarSystem implements ISystem {
     private _entities: FBXEntity[] = [];
     private _renderObject: Group;
 
-    private _rideHeight: number = 0;
+    // private _rideHeight: number = 0;
 
     async deserialize(fileName: string): Promise<void> {
         const data = <CTJsonResponse>await (await fetch(fileName)).json();
 
         this._entities = await Promise.all(data.entities.map(async (entity: SerializedEntityType) => {
-            const fbxEntity: FBXEntity = TYPES_MAP[entity.type]();
+            const fbxEntity: FBXEntity = TYPES_MAP[entity.type](entity);
             await fbxEntity.load(entity.fileName);
-
             return fbxEntity;
         }));
 
@@ -31,20 +30,23 @@ export class CarSystem implements ISystem {
         this._entities.forEach(entity => {
             this._renderObject.add(entity.renderObject);
 
-            this._entities.forEach(entity => {
-                entity.renderObject.children.forEach((child: Mesh) => {
-                    if(!Array.isArray(child.material)) {
-                        child.material = new MeshStandardMaterial({
-                            roughness: 1 - (<MeshPhongMaterial>child.material).reflectivity,
+            console.log('Entity', entity);
+            entity.renderObject.children.forEach((child: Mesh) => {
+                if (!Array.isArray(child.material)) {
+                    child.material = new MeshPhysicalMaterial({
+                        color: entity.color,
+                        ...entity.material?.toMaterialProps(),
+                        reflectivity: 0.5
+                    });
+                } else {
+                    child.material = child.material.map((material: MeshPhongMaterial) => {
+                        return new MeshPhysicalMaterial({
+                            color: entity.color,
+                            ...entity.material?.toMaterialProps(),
+                            reflectivity: 0.5
                         });
-                    } else {
-                        child.material = child.material.map((material: MeshPhongMaterial) => {
-                            return new MeshStandardMaterial({
-                                roughness: 1 - material.reflectivity,
-                            });
-                        })
-                    }
-                });
+                    })
+                }
             })
         });
     }
@@ -62,11 +64,11 @@ export class CarSystem implements ISystem {
             return entity.type === "BodyEntity";
         });
 
-        if(!bodyEntity) {
+        if (!bodyEntity) {
             return;
         }
 
-        this._rideHeight += value;
+        // this._rideHeight += value;
         bodyEntity.renderObject.translateY(value);
     }
 }

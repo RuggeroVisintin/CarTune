@@ -1,6 +1,7 @@
 import {DefaultScene} from '../DefaultScene';
 import { IControls } from './IControls';
 import { ICommand, ChangeRideHeightCommand } from '../commands';
+import { PBRMaterial } from '../components';
 
 export class CliControls implements IControls {
     private _scene: DefaultScene;
@@ -26,5 +27,9 @@ export class CliControls implements IControls {
         });
 
         this._commands = [];
+    }
+
+    get scene(): DefaultScene {
+        return this._scene;
     }
 }

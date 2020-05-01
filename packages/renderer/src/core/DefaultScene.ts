@@ -1,7 +1,7 @@
 import { Scene, CubeTextureLoader, DirectionalLight, AmbientLight, PMREMGenerator } from "three";
-import {EXRLoader} from 'three/examples/jsm/loaders/EXRLoader';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 
-import {CarSystem} from './system/CarSystem';
+import { CarSystem } from './system/CarSystem';
 
 export class DefaultScene {
     private _renderObject: Scene;
@@ -12,25 +12,13 @@ export class DefaultScene {
     }
 
     async init(pmremGenerator: PMREMGenerator, modelPath: string): Promise<void> {
-        const backgroundCube = new CubeTextureLoader()
-            .setPath('assets/img/default_cubemap/')
-            .load([
-                'posx.jpg',
-                'negx.jpg',
-                'posy.jpg',
-                'negy.jpg',
-                'posz.jpg',
-                'negz.jpg'
-            ]);
+        new EXRLoader().load('assets/img/quattro_canti_4k.exr', (texture => {
+            const exrCubeRenderTarget = pmremGenerator.fromEquirectangular(texture);
+            const exrBackground = exrCubeRenderTarget.texture;
 
-        const environment = new EXRLoader()
-            .load('assets/img/factory_yard_4k.exr', (texture => {
-                const exrCubeRenderTarget = pmremGenerator.fromEquirectangular( texture );
-                const exrBackground = exrCubeRenderTarget.texture;
-                
-                this._renderObject.environment = exrCubeRenderTarget.texture;
-                this._renderObject.background = exrBackground;
-            }))
+            this._renderObject.environment = exrCubeRenderTarget.texture;
+            this._renderObject.background = exrBackground;
+        }));
 
         this._carSystem = new CarSystem();
         this._carSystem
