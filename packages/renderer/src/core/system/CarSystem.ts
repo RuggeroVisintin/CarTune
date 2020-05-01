@@ -33,13 +33,11 @@ export class CarSystem implements ISystem {
             entity.renderObject.children.forEach((child: Mesh) => {
                 if (!Array.isArray(child.material)) {
                     child.material = new MeshPhysicalMaterial({
-                        color: entity.color,
                         ...entity.material?.toMaterialProps(),
                     });
                 } else {
                     child.material = child.material.map(() => {
                         return new MeshPhysicalMaterial({
-                            color: entity.color,
                             ...entity.material?.toMaterialProps(),
                         });
                     })
