@@ -1,11 +1,19 @@
 import { Component, ElementRef } from "@angular/core";
+import {CarTuneRenderer} from '@cartune/renderer';
 
 @Component({
     selector: "ct-preview",
-    templateUrl: "./preview.component.html"
+    templateUrl: "./preview.component.html",
+    styleUrls: ['./preview.component.scss']
 }) 
 export class PreviewComponent {
+    private _renderer: CarTuneRenderer
+
     constructor(element: ElementRef) {
-        console.log('Element', element);
+        this._renderer = new CarTuneRenderer(element.nativeElement, 'assets/models/defender/defender.json');
+        this._renderer.init();
+        this._renderer.start();
+
+        window['cliControls'] = this._renderer.cliControls;
     }
 }

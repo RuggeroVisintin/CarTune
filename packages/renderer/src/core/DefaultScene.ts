@@ -11,7 +11,7 @@ export class DefaultScene {
         this._renderObject = new Scene();
     }
 
-    async init(pmremGenerator: PMREMGenerator): Promise<void> {
+    async init(pmremGenerator: PMREMGenerator, modelPath: string): Promise<void> {
         const backgroundCube = new CubeTextureLoader()
             .setPath('assets/img/default_cubemap/')
             .load([
@@ -34,7 +34,7 @@ export class DefaultScene {
 
         this._carSystem = new CarSystem();
         this._carSystem
-            .deserialize('assets/models/defender/defender.json')
+            .deserialize(modelPath)
             .then(() => {
                 this._renderObject.add(this._carSystem.renderObject);
             });
@@ -45,11 +45,6 @@ export class DefaultScene {
 
         var ambientLight = new AmbientLight(0xffffff);
         ambientLight.intensity = .25;
-
-        // this._renderObject.add(directionalLight);
-        // this._renderObject.add(ambientLight);
-
-        // this._renderObject.background = backgroundCube;
     }
 
     get renderObject(): Scene {

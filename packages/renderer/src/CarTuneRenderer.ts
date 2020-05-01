@@ -4,6 +4,8 @@ import {CameraControls, CliControls} from './core/input';
 
 export class CarTuneRenderer {
     private _initialized = false;
+    private _clientElement: Element;
+    private _modelPath: string;
 
     private _renderer: WebGLRenderer;
     private _camera: PerspectiveCamera;
@@ -14,13 +16,17 @@ export class CarTuneRenderer {
 
     private _pmremGenerator: PMREMGenerator;
 
-    constructor(element: Element) {
+    constructor(element: Element, modelPath: string) {
+        this._modelPath = modelPath;
+        this._clientElement = element;
+        const boundingRect = this._clientElement.getBoundingClientRect();
+
         this._renderer = new WebGLRenderer();
-        this._renderer.setSize(window.innerWidth, window.innerHeight);
+        this._renderer.setSize(boundingRect.width, boundingRect.height);
 
         this._pmremGenerator = new PMREMGenerator(this._renderer);
 
-        this._camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this._camera = new PerspectiveCamera(75, boundingRect.width / boundingRect.height, 0.1, 10000);
         this._camera.position.z = 5;
         this._cameraControls = new CameraControls(this._camera, this._renderer);
 
@@ -31,13 +37,15 @@ export class CarTuneRenderer {
         this._initialized = true;
 
         window.onresize = (event: any) => {
-            this._renderer.setSize(window.innerWidth, window.innerHeight);
-            this._camera.aspect = window.innerWidth / window.innerHeight;
+            const boundingRect = this._clientElement.getBoundingClientRect();
+
+            this._renderer.setSize( boundingRect.width,  boundingRect.height);
+            this._camera.aspect =  boundingRect.width /  boundingRect.height;
             this._camera.updateProjectionMatrix();
         } 
 
         this._scene = new DefaultScene();
-        this._scene.init(this._pmremGenerator);
+        this._scene.init(this._pmremGenerator, this._modelPath);
         this._pmremGenerator.compileEquirectangularShader();
 
         this._cliControls = new CliControls(this._scene);
