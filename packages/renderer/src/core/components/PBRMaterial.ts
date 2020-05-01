@@ -1,6 +1,7 @@
 import { IComponent } from "./IComponent";
 
-type PBRMaterialProps = {
+export type PBRMaterialProps = {
+    color?: string;
     roughness?: number;
     metalness?: number;
     clearcoat?: number;
@@ -8,16 +9,18 @@ type PBRMaterialProps = {
 }
 
 export class PBRMaterial implements IComponent {
+    private _color: string;
     private _roughness: number;
     private _metalness: number;
-    private _coatStrenght: number;
+    private _coatStrength: number;
     private _coatRoughness: number;
 
     constructor(props: PBRMaterialProps) {
         this._roughness = props.roughness || 1;
         this._metalness = props.metalness || 0;
-        this._coatStrenght = props.clearcoat || 0;
+        this._coatStrength = props.clearcoat || 0;
         this._coatRoughness = props.clearcoatRoughness || 0;
+        this._color = props.color || '#00000';
     }
 
     get roughness(): number {
@@ -29,7 +32,7 @@ export class PBRMaterial implements IComponent {
     }
 
     get coatStrength(): number {
-        return this._coatStrenght;
+        return this._coatStrength;
     }
 
     get coatRoughness(): number {
@@ -41,7 +44,8 @@ export class PBRMaterial implements IComponent {
             roughness: this._roughness,
             metalness: this._metalness,
             clearcoatRoughness: this._coatRoughness,
-            clearcoat: this.coatStrength
+            clearcoat: this._coatStrength,
+            color: this._color
         };
     }
 }

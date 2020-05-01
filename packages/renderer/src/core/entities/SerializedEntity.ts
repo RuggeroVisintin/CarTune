@@ -1,9 +1,10 @@
-import {PBRMaterial} from '../components';
+import {PBRMaterial, PBRMaterialProps} from '../components';
 
 export type SerializedEntityType = {
     fileName: string;
     type: string;
     color: string;
+    material: PBRMaterialProps;
 }
 
 export abstract class SerializedEntity {

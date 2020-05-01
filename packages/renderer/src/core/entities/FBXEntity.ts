@@ -11,6 +11,7 @@ export class FBXEntity extends SerializedEntity implements IEntity  {
         const loader = new FBXLoader();
 
         return new Promise(resolve => {
+            // TODO: map materials
             loader.load(fileName, fbxScene => {
                 this._renderObject = fbxScene;
                 resolve();

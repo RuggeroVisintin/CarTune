@@ -30,20 +30,17 @@ export class CarSystem implements ISystem {
         this._entities.forEach(entity => {
             this._renderObject.add(entity.renderObject);
 
-            console.log('Entity', entity);
             entity.renderObject.children.forEach((child: Mesh) => {
                 if (!Array.isArray(child.material)) {
                     child.material = new MeshPhysicalMaterial({
                         color: entity.color,
                         ...entity.material?.toMaterialProps(),
-                        reflectivity: 0.5
                     });
                 } else {
-                    child.material = child.material.map((material: MeshPhongMaterial) => {
+                    child.material = child.material.map(() => {
                         return new MeshPhysicalMaterial({
                             color: entity.color,
                             ...entity.material?.toMaterialProps(),
-                            reflectivity: 0.5
                         });
                     })
                 }
