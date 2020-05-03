@@ -1,5 +1,6 @@
 import { Object3D } from "three";
+import { PBRMaterial } from "../components";
 
 export interface IEntity {
-    load(fileName: string): Promise<void>;
+    children: IEntity[];
 }

@@ -1,15 +1,9 @@
-import { Group, Mesh, MeshStandardMaterial, MeshPhongMaterial, CubeTexture, Object3D, MeshPhysicalMaterial } from "three";
+import { Group, Mesh, MeshPhysicalMaterial } from "three";
 
 import { ISystem } from "./ISystem";
 import { CTJsonResponse } from '../utils';
-import { BodyEntity, WheelsEntity, FBXEntity } from "../entities";
-import { SerializedEntityType, SerializedEntity } from "../entities/SerializedEntity";
-
-type TypeMapRecord = Record<string, Function>;
-const TYPES_MAP: TypeMapRecord = {
-    "BodyEntity": (entity: SerializedEntityType) => new BodyEntity(entity),
-    "WheelsEntity": (entity: SerializedEntityType) => new WheelsEntity(entity)
-}
+import { FBXEntity, createEntity } from "../entities";
+import { SerializedEntityType } from "../entities/utils/SerializedEntityType";
 
 export class CarSystem implements ISystem {
     private _entities: FBXEntity[] = [];
@@ -21,8 +15,8 @@ export class CarSystem implements ISystem {
         const data = <CTJsonResponse>await (await fetch(fileName)).json();
 
         this._entities = await Promise.all(data.entities.map(async (entity: SerializedEntityType) => {
-            const fbxEntity: FBXEntity = TYPES_MAP[entity.type](entity);
-            await fbxEntity.load(entity.fileName);
+            const fbxEntity: FBXEntity = createEntity(entity);
+            await fbxEntity.load();
             return fbxEntity;
         }));
 

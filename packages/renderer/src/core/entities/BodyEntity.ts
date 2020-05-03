@@ -1,6 +1,8 @@
 import { FBXEntity } from './FBXEntity';
-import { SerializationType, SerializedEntityType } from './SerializedEntity';
+import { SerializedEntityType } from "./utils/SerializedEntityType";
 import { PBRMaterial } from '../components';
+import { SerializationType } from '../utils';
+import { EntityStore } from './utils';
 
 /**
  * TODO: for later use
@@ -12,7 +14,7 @@ import { PBRMaterial } from '../components';
 //     })
 // }
 
-@SerializationType("BodyEntity")
+@SerializationType("BodyEntity", BodyEntity, EntityStore)
 export class BodyEntity extends FBXEntity {    
     constructor(
         entity: SerializedEntityType

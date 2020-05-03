@@ -21,7 +21,9 @@ export class CarTuneRenderer {
         this._clientElement = element;
         const boundingRect = this._clientElement.getBoundingClientRect();
 
-        this._renderer = new WebGLRenderer();
+        this._renderer = new WebGLRenderer({
+            antialias: true
+        });
         this._renderer.setSize(boundingRect.width, boundingRect.height);
 
         this._pmremGenerator = new PMREMGenerator(this._renderer);

@@ -1,18 +1,17 @@
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 import { Object3D } from "three";
 
-import { IEntity } from "./IEntity";
 import { SerializedEntity} from './SerializedEntity';
 
-export class FBXEntity extends SerializedEntity implements IEntity  {
+export class FBXEntity extends SerializedEntity  {
     private _renderObject: Object3D;
 
-    async load(fileName: string): Promise<void> {
+    async load(): Promise<void> {
         const loader = new FBXLoader();
 
         return new Promise(resolve => {
             // TODO: map materials
-            loader.load(fileName, fbxScene => {
+            loader.load(this.filename, fbxScene => {
                 this._renderObject = fbxScene;
                 resolve();
             });
