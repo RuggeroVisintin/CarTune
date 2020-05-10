@@ -14,7 +14,7 @@ import { EntityStore } from './utils';
 //     })
 // }
 
-@SerializationType("BodyEntity", BodyEntity, EntityStore)
+@SerializationType("BodyEntity", EntityStore)
 export class BodyEntity extends FBXEntity {    
     constructor(
         entity: SerializedEntityType

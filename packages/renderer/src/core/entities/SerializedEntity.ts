@@ -8,7 +8,7 @@ export abstract class SerializedEntity implements IEntity {
     private _name: string;
     private _material: PBRMaterial;
     private _fileName: string;
-    private _children: IEntity[];
+    protected _children: IEntity[] = [];
 
     constructor(
         entity: SerializedEntityType
@@ -24,9 +24,6 @@ export abstract class SerializedEntity implements IEntity {
             this._fileName = entity.fileName;
         }
 
-        /**
-         * TODO: find a solution to circular dependency
-         */
         if(entity.children) {
             this._children = entity.children.map(child => {
                 return createEntity(child);

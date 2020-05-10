@@ -16,6 +16,8 @@ export class PBRMaterial implements IComponent {
     private _coatRoughness: number;
 
     constructor(props: PBRMaterialProps) {
+        console.log('PROPS', props);
+
         this._roughness = props.roughness || 1;
         this._metalness = props.metalness || 0;
         this._coatStrength = props.clearcoat || 0;

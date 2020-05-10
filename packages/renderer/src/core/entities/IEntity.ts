@@ -3,4 +3,6 @@ import { PBRMaterial } from "../components";
 
 export interface IEntity {
     children: IEntity[];
+
+    load(): Promise<void>;
 }

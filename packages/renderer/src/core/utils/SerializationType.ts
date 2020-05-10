@@ -1,6 +1,6 @@
-export function SerializationType(typeName: string, type: Function, store: any) {
+export function SerializationType(typeName: string, store: any) {
     return function (constructor: Function) {
         constructor.prototype._type = typeName;
-        store[typeName] = type;
+        store[typeName] = constructor;
     }
 }

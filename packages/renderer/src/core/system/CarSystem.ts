@@ -2,11 +2,12 @@ import { Group, Mesh, MeshPhysicalMaterial } from "three";
 
 import { ISystem } from "./ISystem";
 import { CTJsonResponse } from '../utils';
-import { FBXEntity, createEntity } from "../entities";
+import { FBXEntity, createEntity, IEntity, IRenderableEntity } from "../entities";
 import { SerializedEntityType } from "../entities/utils/SerializedEntityType";
+import { SerializedEntity } from "../entities/SerializedEntity";
 
 export class CarSystem implements ISystem {
-    private _entities: FBXEntity[] = [];
+    private _entities: IRenderableEntity[] = [];
     private _renderObject: Group;
 
     // private _rideHeight: number = 0;
@@ -15,32 +16,24 @@ export class CarSystem implements ISystem {
         const data = <CTJsonResponse>await (await fetch(fileName)).json();
 
         this._entities = await Promise.all(data.entities.map(async (entity: SerializedEntityType) => {
-            const fbxEntity: FBXEntity = createEntity(entity);
-            await fbxEntity.load();
-            return fbxEntity;
+            const renderable: IRenderableEntity = createEntity(entity);
+
+            if(renderable instanceof SerializedEntity) {
+                await renderable.load();
+            }
+
+            return renderable;
         }));
 
         this._renderObject = new Group();
         this._entities.forEach(entity => {
             this._renderObject.add(entity.renderObject);
 
-            entity.renderObject.children.forEach((child: Mesh) => {
-                if (!Array.isArray(child.material)) {
-                    child.material = new MeshPhysicalMaterial({
-                        ...entity.material?.toMaterialProps(),
-                    });
-                } else {
-                    child.material = child.material.map(() => {
-                        return new MeshPhysicalMaterial({
-                            ...entity.material?.toMaterialProps(),
-                        });
-                    })
-                }
-            })
+           
         });
     }
 
-    get entities(): FBXEntity[] {
+    get entities(): IRenderableEntity[] {
         return this._entities;
     }
 
@@ -49,15 +42,15 @@ export class CarSystem implements ISystem {
     }
 
     set rideHeight(value: number) {
-        const bodyEntity = this.entities.find(entity => {
-            return entity.type === "BodyEntity";
-        });
+        // const bodyEntity = this.entities.find(entity => {
+        //     return entity.type === "BodyEntity";
+        // });
 
-        if (!bodyEntity) {
-            return;
-        }
+        // if (!bodyEntity) {
+        //     return;
+        // }
 
-        // this._rideHeight += value;
-        bodyEntity.renderObject.translateY(value);
+        // // this._rideHeight += value;
+        // bodyEntity.renderObject.translateY(value);
     }
 }
