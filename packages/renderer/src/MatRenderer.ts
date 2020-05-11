@@ -1,23 +1,20 @@
 import { WebGLRenderer, PerspectiveCamera, PMREMGenerator } from 'three';
-import {CarScene} from './core/CarScene';
 import {CameraControls, CliControls} from './core/input';
+import { SimpleScene } from './core/SimpleScene';
 
-export class CarTuneRenderer {
+export class MatRenderer {
     private _initialized = false;
     private _clientElement: Element;
-    private _modelPath: string;
 
     private _renderer: WebGLRenderer;
     private _camera: PerspectiveCamera;
-    private _scene: CarScene;
+    private _scene: SimpleScene;
 
-    private _cliControls: CliControls;
     private _cameraControls: CameraControls;
 
     private _pmremGenerator: PMREMGenerator;
 
-    constructor(element: Element, modelPath: string) {
-        this._modelPath = modelPath;
+    constructor(element: Element) {
         this._clientElement = element;
         const boundingRect = this._clientElement.getBoundingClientRect();
 
@@ -29,7 +26,7 @@ export class CarTuneRenderer {
         this._pmremGenerator = new PMREMGenerator(this._renderer);
 
         this._camera = new PerspectiveCamera(75, boundingRect.width / boundingRect.height, 0.1, 10000);
-        this._camera.position.z = 5;
+        this._camera.position.z = 100;
         this._cameraControls = new CameraControls(this._camera, this._renderer);
 
        element.appendChild(this._renderer.domElement);
@@ -46,11 +43,9 @@ export class CarTuneRenderer {
             this._camera.updateProjectionMatrix();
         } 
 
-        this._scene = new CarScene();
-        this._scene.init(this._pmremGenerator, this._modelPath);
+        this._scene = new SimpleScene();
+        this._scene.init(this._pmremGenerator);
         this._pmremGenerator.compileEquirectangularShader();
-
-        this._cliControls = new CliControls(this._scene);
     }
 
     start() {
@@ -61,11 +56,6 @@ export class CarTuneRenderer {
         requestAnimationFrame(() => {this.start()});
 
         this._cameraControls.update();
-        this._cliControls.update();
         this._renderer.render(this._scene.renderObject, this._camera);
-    }
-
-    get cliControls(): CliControls {
-        return this._cliControls;
     }
 }

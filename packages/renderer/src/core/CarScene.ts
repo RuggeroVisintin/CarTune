@@ -1,9 +1,10 @@
-import { Scene, CubeTextureLoader, DirectionalLight, AmbientLight, PMREMGenerator } from "three";
+import { Scene, PMREMGenerator } from "three";
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 
 import { CarSystem } from './system/CarSystem';
+import {IScene} from './IScene';
 
-export class DefaultScene {
+export class CarScene implements IScene {
     private _renderObject: Scene;
     private _carSystem: CarSystem;
 
@@ -26,15 +27,6 @@ export class DefaultScene {
                     this._renderObject.add(this._carSystem.renderObject);
                 });
         }));
-
-      
-
-        var directionalLight = new DirectionalLight(0xffffff);
-        directionalLight.position.set(-1, 1, 1);
-        directionalLight.intensity = 0.7;
-
-        var ambientLight = new AmbientLight(0xffffff);
-        ambientLight.intensity = .25;
     }
 
     get renderObject(): Scene {

@@ -9,3 +9,7 @@ cd $DIR/packages/frontend
 
 npm install
 npm run build
+
+cd $DIR/packages/mat-editor
+npm install
+npm run build

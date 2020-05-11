@@ -1,0 +1,14 @@
+.container {
+    width: 150px;
+    padding: 30px;
+    overflow-y: auto;
+
+    .slide-container {
+        display: flex;
+
+        input[type="text"] {
+            width: 25px;
+        }
+    }
+}
+

@@ -1,4 +1,5 @@
 export * from './src/CarTuneRenderer';
+export * from './src/MatRenderer';
 
 // import {CarTune} from './src/CarTune';
 // import { CliControls } from './src/core/input';

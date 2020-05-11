@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "bootstrap": "./bin/bootstrap.sh",
     "build:dev": "./bin/build-dev.sh",
-    "serve": "./bin/serve.sh"
+    "serve:cartune": "./bin/serve-cartune.sh",
+    "serve:mat-editor": "./bin/serve-mat-editor.sh"
   },
   "repository": {
     "type": "git",

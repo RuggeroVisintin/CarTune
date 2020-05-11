@@ -1,14 +1,14 @@
-import {DefaultScene} from '../DefaultScene';
+import {CarScene} from '../CarScene';
 import { IControls } from './IControls';
 import { ICommand, ChangeRideHeightCommand } from '../commands';
 import { PBRMaterial } from '../components';
 
 export class CliControls implements IControls {
-    private _scene: DefaultScene;
+    private _scene: CarScene;
     private _commands: ICommand[] = [];
 
     constructor(
-        scene: DefaultScene
+        scene: CarScene
     ) {
         this._scene = scene;
     }
@@ -29,7 +29,7 @@ export class CliControls implements IControls {
         this._commands = [];
     }
 
-    get scene(): DefaultScene {
+    get scene(): CarScene {
         return this._scene;
     }
 }

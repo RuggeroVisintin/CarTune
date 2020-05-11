@@ -1,4 +1,4 @@
-import { DefaultScene } from "../DefaultScene";
+import { CarScene } from "../CarScene";
 import { ICommand } from "./ICommand";
 import { MathUtils } from "three";
 
@@ -11,7 +11,7 @@ export class ChangeRideHeightCommand implements ICommand {
         this._delta = delta;
     }
 
-    apply(scene: DefaultScene): void {
+    apply(scene: CarScene): void {
        scene.carSystem.rideHeight = this._delta;
     }
 }
